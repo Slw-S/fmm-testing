@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        version: ["cp312"]
+        version: ["cp311","cp312"]
     
     steps:
       - uses: actions/checkout@v4
