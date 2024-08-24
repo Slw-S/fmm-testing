@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        version: ["cp38","cp39","cp310","cp311","cp312"]
+        os: [windows-latest, ubuntu-latest, macos-13, macos-14]
+        version: ["cp313"]
     
     steps:
       - uses: actions/checkout@v4
@@ -25,8 +25,6 @@ jobs:
         env:    
           CIBW_BUILD: ${{matrix.version}}-*
           CIBW_CONFIG_SETTINGS_WINDOWS: "setup-args=--vsenv"
-          CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=12.0
-          CIBW_ARCHS_MACOS: arm64 x86_64
           CIBW_ARCHS_WINDOWS: AMD64
           CIBW_ARCHS_LINUX: auto64
           CIBW_SKIP: "*musllinux*"
