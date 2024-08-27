@@ -6,7 +6,7 @@ from .cfmm import cFastMarcher
 FAR, NARROW, FROZEN, MASK = 0, 1, 2, 3
 DISTANCE, TRAVEL_TIME, EXTENSION_VELOCITY = 0, 1, 2
 
-
+d_type=np.long if np.__version__.startswith("2") else int
 def pre_process_args(phi, dx, narrow, periodic, ext_mask=None):
     """
     get input data into the correct form for calling the c extension module
@@ -20,14 +20,14 @@ def pre_process_args(phi, dx, narrow, periodic, ext_mask=None):
     dx = np.array(dx)
 
     if isinstance(phi, np.ma.MaskedArray):
-        flag = np.zeros(phi.shape, dtype=np.dtype("longlong"))
+        flag = np.zeros(phi.shape, dtype=np.d_type)
         flag[phi.mask] = MASK
         phi = phi.data
     else:
-        flag = np.zeros(phi.shape, dtype=np.dtype("longlong"))
+        flag = np.zeros(phi.shape, dtype=np.d_type)
 
     if ext_mask is None:
-        ext_mask = np.zeros(phi.shape, dtype=np.dtype("longlong"))
+        ext_mask = np.zeros(phi.shape, dtype=np.d_type)
 
     periodic_data = 0
     if isinstance(periodic, bool):
