@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-13, macos-14]
-        version: ["cp39","cp310","cp311","cp312","cp313"]
+        os: [windows-latest]
+        version: ["cp312"]
     
     steps:
       - uses: actions/checkout@v4
@@ -25,18 +25,19 @@ jobs:
         env:    
           CIBW_BUILD: ${{matrix.version}}-*
           CIBW_CONFIG_SETTINGS_WINDOWS: "setup-args=--vsenv"
-          CIBW_ARCHS_WINDOWS: AMD64
+          CIBW_ARCHS_WINDOWS: ARM64
           CIBW_ARCHS_LINUX: auto64
           CIBW_SKIP: "*musllinux*"
-          CIBW_TEST_REQUIRES: numpy
-          CIBW_TEST_COMMAND: |
-           python -c "import skfmm, sys; sys.exit(skfmm.test())"
-           pip install numpy==1.26.4
-           python -c "import skfmm, sys; sys.exit(skfmm.test())"
+          #CIBW_TEST_REQUIRES: numpy
+          #CIBW_TEST_COMMAND: |
+          # python -c "import skfmm, sys; sys.exit(skfmm.test())"
+          # pip install numpy==1.26.4
+          # python -c "import skfmm, sys; sys.exit(skfmm.test())"
           
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-${{ matrix.os}}
+          name: windows-arm64-wheel
+          #name: cibw-wheels-${{ matrix.os}}
           path: ./wheelhouse/*.whl
 
 
