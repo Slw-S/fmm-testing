@@ -1,6 +1,14 @@
 [build-system]
-build-backend = 'mesonpy'
-requires = ['meson-python', 'wheel', 'numpy']
+requires = ["setuptools", "wheel", "cibuildwheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+#archs = { windows = ["ARM64", "AMD64"], linux = ["x86_64"], macos = ["x86_64", "arm64"] }
+archs = { windows = ["ARM64"] }
+
+#[build-system]
+#build-backend = 'mesonpy'
+#requires = ['meson-python', 'wheel', 'numpy']
 
 [project]
 name = 'scikit-fmm'
