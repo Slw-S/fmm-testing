@@ -1,0 +1,51 @@
+name: Build and publish wheels
+
+on: [pull]
+  
+jobs:
+   build_wheels:
+    name: Build ${{ matrix.arch }} wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        #os: [windows-latest, ubuntu-22.04,ubuntu-22.04-arm, macos-13, macos-14]
+        os: [ubuntu-22.04-arm]
+        include:
+          - os: windows-latest
+            arch: AMD64
+          - os: ubuntu-22.04
+            arch: x86_64
+          - os: ubuntu-22.04-arm
+            arch: aarch64
+          - os: macos-13
+            arch: x86_64
+            macos_deployment_target: "13.0"
+          - os: macos-14
+            arch: arm64
+            macos_deployment_target: "14.0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+      
+      - name: Wheels
+        uses: pypa/cibuildwheel@v2.22
+        env:
+          CIBW_SKIP: "pp*-win* pp31* *musllinux*"
+          CIBW_ARCHS: ${{ matrix.arch }}
+          CIBW_CONFIG_SETTINGS_WINDOWS: "setup-args=--vsenv"
+          CIBW_ENVIRONMENT_MACOS:
+            MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_deployment_target }}
+          CIBW_TEST_REQUIRES: numpy
+          CIBW_TEST_COMMAND: |
+           python -c "import skfmm, sys; sys.exit(skfmm.test())"
+           pip install numpy==1.26.4
+           python -c "import skfmm, sys; sys.exit(skfmm.test())"
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}-${{ matrix.arch }}
+          path: ./wheelhouse/*.whl
+          retention-days: 5
