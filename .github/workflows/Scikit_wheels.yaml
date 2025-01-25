@@ -1,16 +1,21 @@
-name: Build wheels
+name: Build and publish wheels
 
-on: [push]
+on:
+  push:
+    tags:
+      - '*'  # Triggers the workflow on version tags
+
+permissions:
+  contents: write
+  actions: read
   
 jobs:
-   build_wheels:
+  build_wheels:
     name: Build ${{ matrix.arch }} wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        #os: [windows-latest, ubuntu-22.04,ubuntu-22.04-arm, macos-13, macos-14]
-        os: [ubuntu-22.04-arm]
         include:
           - os: windows-latest
             arch: AMD64
@@ -49,3 +54,42 @@ jobs:
           name: wheels-${{ matrix.os }}-${{ matrix.arch }}
           path: ./wheelhouse/*.whl
           retention-days: 5
+  publish:
+    name: Publish on GitHub
+    needs: [build_wheels]
+    runs-on: ubuntu-latest
+    steps:
+     
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-ubuntu-22.04-x86_64
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-ubuntu-22.04-arm-aarch64
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-macos-13-x86_64
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-macos-14-arm64
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-windows-2022-auto64
+          path: dist
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+          body_path: ./release_notes.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+  
