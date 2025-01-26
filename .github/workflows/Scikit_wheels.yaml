@@ -54,7 +54,7 @@ jobs:
       - name: Wheels
         uses: pypa/cibuildwheel@v2.22
         env:
-          CIBW_SKIP: "pp*-win* pp31* *cp38* *musllinux*"
+          CIBW_SKIP: "pp*-win* pp31* *cp38*"
           CIBW_ARCHS: ${{ matrix.arch }}
           CIBW_CONFIG_SETTINGS_WINDOWS: "setup-args=--vsenv"
           CIBW_ENVIRONMENT_MACOS:
