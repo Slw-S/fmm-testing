@@ -2,6 +2,8 @@ name: Build and publish wheels
 
 on:
   push:
+    branches:
+      - master
     tags:
       - '*'  # Triggers the workflow on version tags
 
@@ -23,13 +25,18 @@ jobs:
           sed -i 's/2024.05.29/2025.01.28/g' meson.build
           sed -i 's/2024.05.29/2025.01.28/g' pyproject.toml
           sed -i 's/024.05.29/2025.01.28/g'  skfmm/__init__.py
-      - name: Commit changes
+      
+
+      - name: Create branch and commit changes
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m 'Replace "2024.05.29" with "2025.01.28" in files'
-          git push
+         git config --global user.name 'github-actions[bot]'
+         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+         git checkout -b replace-string-branch
+         git add .
+         git commit -m 'Update version'
+
+      - name: Push changes
+        run: git push origin replace-string-branch
       
       - name: Build SDist
         run: pipx run build --sdist
