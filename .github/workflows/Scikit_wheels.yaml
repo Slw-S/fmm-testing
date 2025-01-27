@@ -18,7 +18,7 @@ jobs:
       - name: Replace version number
         run: |
           ls
-          sed -i 's/2024.05.29/2025.01.28/g' readme.md
+          sed -i 's/2024.05.29/2025.01.28/g' README.md
           sed -i 's/2024.05.29/2025.01.28/g' doc/conf.py
           sed -i 's/2024.05.29/2025.01.28/g' meson.build
           sed -i 's/2024.05.29/2025.01.28/g' pyproject.toml
