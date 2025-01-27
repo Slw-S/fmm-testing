@@ -1,6 +1,6 @@
 **Testing release**
 
-**fmm-testing 2024.09.16, built with Numpy 2.2.2, using the longlong data type** 
+**fmm-testing 2025.01.28, built with Numpy 2.2.2, using the longlong data type** 
 
 **Compatible with Numpy 2.0 and above on all platfrms**
 
