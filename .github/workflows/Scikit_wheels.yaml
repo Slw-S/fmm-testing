@@ -26,17 +26,16 @@ jobs:
           sed -i 's/2024.05.29/2025.01.28/g' pyproject.toml
           sed -i 's/024.05.29/2025.01.28/g'  skfmm/__init__.py
       
-
       - name: Create branch and commit changes
         run: |
          git config --global user.name 'github-actions[bot]'
          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-         git checkout -b replace-string-branch
+         git checkout master
          git add .
          git commit -m 'Update version'
 
       - name: Push changes
-        run: git push origin replace-string-branch
+        run: git push origin master
       
       - name: Build SDist
         run: pipx run build --sdist
