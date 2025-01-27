@@ -2,11 +2,8 @@ name: Build and publish wheels
 
 on:
   push:
-    branches:
-      - master
     tags:
       - '*'  # Triggers the workflow on version tags
-
 permissions:
   contents: write
   actions: read
@@ -17,26 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Replace version number
-        run: |
-          ls
-          sed -i 's/2024.05.29/2025.01.28/g' README.md
-          sed -i 's/2024.05.29/2025.01.28/g' doc/conf.py
-          sed -i 's/2024.05.29/2025.01.28/g' meson.build
-          sed -i 's/2024.05.29/2025.01.28/g' pyproject.toml
-          sed -i 's/024.05.29/2025.01.28/g'  skfmm/__init__.py
-      
-      - name: Create branch and commit changes
-        run: |
-         git config --global user.name 'github-actions[bot]'
-         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-         git checkout master
-         git add .
-         git commit -m 'Update version'
-
-      - name: Push changes
-        run: git push origin master
-      
+       
       - name: Build SDist
         run: pipx run build --sdist
 
@@ -49,7 +27,6 @@ jobs:
           path: dist/*.tar.gz
  
   build_wheels:
-    needs: [build_sdist]
     name: Build ${{ matrix.arch }} wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
