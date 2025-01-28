@@ -1,6 +1,6 @@
 name: Update version
 
-on: [push]
+on: [pull]
 
 permissions:
   contents: write
