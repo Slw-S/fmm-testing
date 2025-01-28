@@ -1,7 +1,7 @@
 
 ### fmm-testing
 
-version = '2025.01.28'
+version = '2025.01.29'
 
 ### Tests:
   
