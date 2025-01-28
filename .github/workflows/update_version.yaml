@@ -1,6 +1,6 @@
 name: Update version
 
-on: [push]
+on: [pull]
 
 permissions:
   contents: write
@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Fetch all tags
    
