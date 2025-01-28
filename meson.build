@@ -1,4 +1,4 @@
-project('skfmm', 'cpp', version: '2025.01.31')
+project('skfmm', 'cpp', version: '2025.01.28')
 
 py = import('python').find_installation()
 
