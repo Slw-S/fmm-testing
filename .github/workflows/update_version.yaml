@@ -1,4 +1,4 @@
-name: Replace String
+name: Update version
 
 on: [push]
 
