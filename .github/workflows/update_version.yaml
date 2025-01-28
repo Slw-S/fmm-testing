@@ -1,6 +1,7 @@
 name: Update version
 
-on: [pull]
+on:
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -11,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      OLD_VERSION: '2025.01.29'
-      NEW_VERSION: '2025.01.30'
+      OLD_VERSION: '2025.01.30'
+      NEW_VERSION: '2025.01.31'
 
     steps:
     - name: Checkout repository
