@@ -11,15 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      OLD_VERSION: '2025.01.30'
-      NEW_VERSION: '2025.01.31'
+      OLD_VERSION: '2025.01.31'
+     # NEW_VERSION: '2025.01.31'
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Fetch all tags
-   
+    - name: Set NEW_VERSION to current date
+      run: echo "NEW_VERSION=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
     - name: Replace version number
       run: |
           ls
